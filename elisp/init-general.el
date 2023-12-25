@@ -2,7 +2,6 @@
 
 (set-frame-font "Hack 14" nil t)
 
-; (setq confirm-kill-emacs #'yes-or-no-p)      ; 在关闭 Emacs 前询问是否确认关闭，防止误触
 (electric-pair-mode t)                       ; 自动补全括号
 (add-hook 'prog-mode-hook #'show-paren-mode) ; 编程模式下，光标在括号上时高亮另一个括号
 (column-number-mode t)                       ; 在 Mode line 上显示列号
@@ -14,17 +13,17 @@
 
 (pixel-scroll-precision-mode 1)
 (savehist-mode 1)                            ; （可选）打开 Buffer 历史记录保存
+(auto-save-mode 1)                           ; （可选）打开自动保存
 (setq display-line-numbers-type 'relative)   ; （可选）显示相对行号
 
 (fset 'yes-or-no-p 'y-or-n-p)
+(setq default-frame-alist (append default-frame-alist '((alpha-background . 70))))
 
-(setq display-buffer-alist
-      '(("\\*Org Agenda*" 
-         (display-buffer-in-side-window)
-         (window-width . 0.5)  ; 调整窗口宽度
-         (side . right)        ; 在右侧显示
-         (slot . 0)             ; 选择窗口的槽位
-         (window-parameters . ((no-delete-other-windows . t))))))
+(defun open-emacs-config ()
+  "Open the Emacs configuration file."
+  (interactive)
+  (find-file "~/.emacs.d/elisp"))
+
 
 (use-package winner-mode
   :ensure nil

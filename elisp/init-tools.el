@@ -48,6 +48,7 @@
   (setq ivy-use-virtual-buffers t)
   (setq search-default-mode #'char-fold-to-regexp)
   (setq ivy-count-format "(%d/%d) ")
+  (setq ivy-use-selectable-prompt t)
   :bind
   (("C-s" . 'swiper)
    ("C-x b" . 'ivy-switch-buffer)
@@ -95,5 +96,17 @@
 
 (use-package magit
   :ensure t)
+
+(use-package newsticker
+  :ensure t
+  :config
+  (setq newsticker-url-list
+	'(
+          ;; ("title" "URL" other options)
+          ;; 这里使用上面的格式，添加 RSS 源
+					; ("Planet Emacs Life" "https://planet.emacslife.com/atom.xml" nil nil nil)
+	  ("hellogithub" "https://hellogithub.com/rss/" nil nil nil)
+          ))
+)
 
 (provide 'init-tools)

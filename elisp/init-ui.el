@@ -1,3 +1,8 @@
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
+
 (use-package doom-themes
   :ensure t
   :config

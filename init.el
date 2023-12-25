@@ -1,11 +1,6 @@
-(let ((minver "25.1"))
-  (when (version< emacs-version minver)
-    (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
-(when (version< emacs-version "26.1")
-  (message "Your Emacs is old, and some functionality in this config will be disabled. Please upgrade if possible."))
-
 (add-to-list 'load-path (expand-file-name "elisp" user-emacs-directory))
 
+;; straight
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name
@@ -28,10 +23,11 @@
 (require 'init-tools)
 (require 'init-edit)
 (require 'init-window)
+(require 'init-lsp)
+(require 'init-org)
+(require 'init-program)
+(require 'init-company)
 
-(require 'init-lsp-mode)
-(require 'init-org-mode)
-  
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -46,4 +42,4 @@
  ;; If there is more than one, they won't work right.
 )
 
-(setq default-frame-alist (append default-frame-alist '((alpha-background . 70))))
+
