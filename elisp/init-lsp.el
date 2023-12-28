@@ -8,6 +8,7 @@
 	 (c++-ts-mode . lsp-deferred)
 	 (python-ts-mode . lsp-deferred)
 	 (rust-ts-mode . lsp-deferred)
+	 (go-ts-mode . lsp-deferred)
 	 (lsp-mode . lsp-enable-which-key-integration)
   )
   :commands (lsp lsp-deferred)
@@ -16,7 +17,9 @@
 (use-package copilot
   :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
   :ensure t
-  :hook (prog-mode . copilot-mode)
+  :hook ((prog-mode . copilot-mode)
+	 (copilot-mode . (lambda ()
+			   (setq-local copilot--indent-warning-printed-p t))))
   :config
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))

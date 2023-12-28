@@ -19,7 +19,6 @@
 	   "* %?\n%U" :empty-lines 1)
 	  ("h" "Home" entry (file+headline org-agenda-home-file "Home") "* %?\n%T" :prepend t)
 	  ("w" "Work" entry (file+headline org-agenda-work-file "Work") "* %?\n%T" :prepend t)
-	  ("s" "School" entry (file+headline org-agenda-school-file "School") "* %?\n%T" :prepend t)
 	  ("t" "Todo" entry (file+headline org-agenda-todo-file "Todo") "* %?\n%T" :prepend t)))
 
   (setq org-refile-targets '((org-agenda-files :maxlevel . 2)))
@@ -27,6 +26,9 @@
   :bind
   (("C-c a" . 'org-agenda)
    ("C-c c" . 'org-capture)))
+
+(use-package org-alert
+  :ensure t)
 
 (use-package valign
   :ensure t

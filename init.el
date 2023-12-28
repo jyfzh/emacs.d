@@ -25,8 +25,10 @@
 (require 'init-window)
 (require 'init-lsp)
 (require 'init-org)
-(require 'init-program)
 (require 'init-company)
+
+(require 'init-rust)
+(require 'init-go)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

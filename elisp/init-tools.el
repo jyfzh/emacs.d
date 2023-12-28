@@ -1,6 +1,9 @@
 (use-package treesit-auto
-  :ensure t
-  :config (global-treesit-auto-mode))
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 (use-package which-key
   :ensure t
@@ -64,49 +67,7 @@
   :ensure t
   :init (amx-mode))
 
-(use-package undo-tree
-  :ensure t
-  :init (global-undo-tree-mode)
-  :custom
-  (undo-tree-auto-save-history nil))
-
-(use-package treemacs
-  :ensure t
-  :defer t
-  :config
-  (treemacs-tag-follow-mode)
-  :bind
-  (:map global-map
-        ("M-0"       . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("C-x t t"   . treemacs)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag))
-  (:map treemacs-mode-map
-	("/" . treemacs-advanced-helpful-hydra)))
-
-(use-package treemacs-projectile
-  :ensure t
-  :after (treemacs projectile))
-
-(use-package lsp-treemacs
-  :ensure t
-  :after (treemacs lsp))
-
 (use-package magit
   :ensure t)
-
-(use-package newsticker
-  :ensure t
-  :config
-  (setq newsticker-url-list
-	'(
-          ;; ("title" "URL" other options)
-          ;; 这里使用上面的格式，添加 RSS 源
-					; ("Planet Emacs Life" "https://planet.emacslife.com/atom.xml" nil nil nil)
-	  ("hellogithub" "https://hellogithub.com/rss/" nil nil nil)
-          ))
-)
 
 (provide 'init-tools)

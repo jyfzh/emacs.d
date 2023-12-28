@@ -9,9 +9,9 @@
   (setq company-selection-wrap-around t)
   (setq company-transformers '(company-sort-by-occurrence))) ; 根据选择的频率进行排序，读者如果不喜欢可以去掉
 
-(use-package company-box
-  :ensure t
-  :if window-system
-  :hook (company-mode . company-box-mode))
+;(use-package company-box
+;  :ensure t
+;  :if window-system
+;  :hook (company-mode . company-box-mode))
 
 (provide 'init-company)
