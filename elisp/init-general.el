@@ -1,29 +1,21 @@
-(defconst *spell-check-support-enabled* nil) ;; Enable with t if you prefer
-
-(set-frame-font "Hack 14" nil t)
-
-(electric-pair-mode t)                       ; 自动补全括号
-(add-hook 'prog-mode-hook #'show-paren-mode) ; 编程模式下，光标在括号上时高亮另一个括号
-(column-number-mode t)                       ; 在 Mode line 上显示列号
-(global-auto-revert-mode t)                  ; 当另一程序修改了文件时，让 Emacs 及时刷新 Buffer
-(delete-selection-mode t)                    ; 选中文本后输入文本会替换文本（更符合我们习惯了的其它编辑器的逻辑）
-(setq make-backup-files nil)                 ; 关闭文件自动备份
-(add-hook 'prog-mode-hook #'hs-minor-mode)   ; 编程模式下，可以折叠代码块
-(global-display-line-numbers-mode 1)         ; 在 Window 显示行号
-
-(pixel-scroll-precision-mode 1)
-(savehist-mode 1)                            ; （可选）打开 Buffer 历史记录保存
-(auto-save-mode 1)                           ; （可选）打开自动保存
-(setq display-line-numbers-type 'relative)   ; （可选）显示相对行号
-
+(electric-pair-mode t)
+(savehist-mode 1)
+(auto-save-mode 1)
+(global-auto-revert-mode t)
+(delete-selection-mode t)
+(setq make-backup-files nil)
 (fset 'yes-or-no-p 'y-or-n-p)
-(setq default-frame-alist (append default-frame-alist '((alpha-background . 70))))
+(pixel-scroll-precision-mode 1)
 
 (defun open-emacs-config ()
   "Open the Emacs configuration file."
   (interactive)
-  (find-file "~/.emacs.d/elisp"))
+  (find-file "~/.config/emacs/elisp"))
 
+(defun open-agenda-config ()
+  "Open the Emacs configuration file."
+  (interactive)
+  (find-file "~/org/agenda"))
 
 (use-package winner-mode
   :ensure nil
@@ -36,20 +28,6 @@
 (use-package hl-line
   :ensure nil
   :hook (after-init . global-hl-line-mode))
-
-(use-package hideshow
-  :ensure nil
-  :diminish hs-minor-mode
-  :bind (:map prog-mode-map
-         ("C-c TAB" . hs-toggle-hiding)
-         ("M-+" . hs-show-all))
-  :hook (prog-mode . hs-minor-mode)
-  :custom
-  (hs-special-modes-alist
-   (mapcar 'purecopy
-           '((c-mode "{" "}" "/[*/]" nil nil)
-             (c++-mode "{" "}" "/[*/]" nil nil)
-             (rust-mode "{" "}" "/[*/]" nil nil)))))
 
 (use-package whitespace
   :ensure nil
