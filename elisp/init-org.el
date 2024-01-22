@@ -1,6 +1,6 @@
 (use-package org
   :hook
-  (org-mode . org-indent-mode)
+  ;(org-mode . org-indent-mode)
   (org-mode . (lambda () (setq truncate-lines nil)))
   :config
   ; org
