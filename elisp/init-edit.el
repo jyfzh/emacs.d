@@ -1,9 +1,9 @@
-(use-package hungry-delete
-  :hook (after-init . global-hungry-delete-mode))
+(use-package editorconfig
+  :config (editorconfig-mode 1))
 
 (use-package multiple-cursors
-  :config (setq mc/list-file (expand-file-name "multiple-cursors-list-file" wk-cfg-dir)) ;; 有些命令会询问是否应用到所有光标，然后该命令的 是/否 会被缓存到这个文件中
-  :bind ("C-S-c C-S-c" . mc/edit-lines))
+    :config (setq mc/list-file (expand-file-name "multiple-cursors-list-file" wk-cfg-dir))
+    :bind ("C-S-c C-S-c" . mc/edit-lines))
 
 (use-package avy
   :custom

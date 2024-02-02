@@ -1,3 +1,4 @@
+(setq package-quickstart t)
 (use-package package
   :config
   (setq package-archives '(("gnu"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
