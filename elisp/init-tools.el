@@ -1,22 +1,8 @@
-(use-package treemacs)
-(use-package treemacs-projectile)
-(use-package projectile
-	:bind ("C-c p" . projectile-command-map)
-	:custom
-	(projectile-track-known-projects-automatically nil)
-	:config
-	(setq projectile-project-search-path '(("~/code/",1)))
-	(use-package counsel-projectile
-		:init (counsel-projectile-mode)))
-
 (use-package which-key
 	:hook (after-init . which-key-mode))
 
 (use-package wakatime-mode
 	:hook (after-init . global-wakatime-mode))
-
-(use-package fanyi
-	:commands (fanyi-dwim fanyi-dwim2))
 
 (use-package amx
 	:config (amx-mode))
@@ -26,9 +12,6 @@
 	:hook (prog-mode . hs-minor-mode)
 	:bind (("C-c C-h" . hs-hide-all)
 			  ("C-c C-s" . hs-show-all)))
-
-(use-package igist
-	:bind (("M-o" . igist-dispatch)))
 
 (use-package magit
 	:commands magit)
@@ -155,12 +138,5 @@
   ;;;; 5. No project support
 	;; (setq consult-project-function nil)
 	)
-
-(use-package elfeed
-	:bind ("C-x w" . elfeed)
-	:config
-	(use-package elfeed-org
-		:config (setq rmh-elfeed-org-files (list "~/.config/emacs/elfeed.org")))
-	(elfeed-org))
 
 (provide 'init-tools)

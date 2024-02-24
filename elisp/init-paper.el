@@ -1,13 +1,6 @@
 (use-package persid
     :straight (persid :type git :host github :repo "rougier/persid"))
 
-(use-package pdf-tools
-  :magic ("%PDF" . pdf-view-mode)
-  :config
-  (pdf-tools-install)
-  (setq-default pdf-view-display-size 'fit-page)
-  (setq pdf-annot-activate-created-annotations t))
-
 (use-package citar
   :no-require
   :custom
