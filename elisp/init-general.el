@@ -1,51 +1,21 @@
-(electric-pair-mode t)
+; (electric-pair-mode t)
+(winner-mode)
+(save-place-mode)
 (savehist-mode 1)
 (auto-save-mode 1)
+(whitespace-mode)
+(global-hl-line-mode)
+(global-so-long-mode)
 (global-auto-revert-mode t)
 (delete-selection-mode t)
-(setq make-backup-files nil)
-(fset 'yes-or-no-p 'y-or-n-p)
 (pixel-scroll-precision-mode 1)
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq make-backup-files nil)
 (setq auto-hscroll-mode 'currentline)
 (setq inhibit-startup-message t)
-;(set-face-attribute 'default nil :font "Jetbrains Mono" :height 160)
-(set-frame-font "JetBrainsMono 16" nil t)
-
-(defun open-emacs-config ()
-	"Open the Emacs configuration file."
-	(interactive)
-	(find-file "~/.config/emacs/elisp"))
-
-(defun open-agenda-file ()
-	"Open the agenda file."
-	(interactive)
-	(find-file "~/org/agenda"))
-
-(use-package winner-mode
-	:ensure nil
-	:hook (after-init . winner-mode))
-
-(use-package saveplace
-	:ensure nil
-	:hook (after-init . save-place-mode))
-
-(use-package hl-line
-	:ensure nil
-	:hook (after-init . global-hl-line-mode))
-
-(use-package whitespace
-	:ensure nil
-	:hook ((prog-mode markdown-mode conf-mode) . whitespace-mode)
-	:config
-	(setq whitespace-style '(face trailing)))
-
-(use-package so-long
-	:ensure nil
-	:config (global-so-long-mode 1))
-
-(use-package autorevert
-	:ensure nil
-	:hook (after-init . global-auto-revert-mode))
+(setq package-quickstart t)
+(set-frame-font "JetBrainsMono 14" nil t)
+; (set-face-attribute 'default nil :font "Jetbrains Mono" :height 160)
 
 (use-package isearch
 	:ensure nil

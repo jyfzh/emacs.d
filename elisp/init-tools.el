@@ -1,3 +1,28 @@
+(use-package editorconfig
+  :config (editorconfig-mode 1))
+
+(use-package multiple-cursors
+    :config (setq mc/list-file (expand-file-name "multiple-cursors-list-file" wk-cfg-dir))
+    :bind ("C-S-c C-S-c" . mc/edit-lines))
+
+(use-package avy
+    :custom
+    (avy-all-windows t)
+    (avy-timeout-seconds 0.3)
+    :bind (("C-l" . avy-goto-char-2)
+	          ("C-c C-j" . avy-resume))
+    :config
+    (use-package ace-pinyin :defer)
+    (ace-pinyin-global-mode +1))
+
+(use-package mwim
+    :bind
+    (("C-a" . mwim-beginning-of-code-or-line)
+        ("C-e" . mwim-end-of-code-or-line)))
+
+(use-package expand-region
+    :bind ("C-=" . er/expand-region))
+
 (use-package which-key
 	:hook (after-init . which-key-mode))
 
@@ -138,5 +163,61 @@
   ;;;; 5. No project support
 	;; (setq consult-project-function nil)
 	)
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package dashboard
+	:config (dashboard-setup-startup-hook))
+
+(use-package doom-themes
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (load-theme 'doom-one t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
+
+(use-package doom-modeline
+    :init (doom-modeline-mode 1))
+
+(use-package highlight-indent-guides
+    :init (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+    :defer t
+    :config
+    (setq highlight-indent-guides-method 'character)
+    (setq highlight-indent-guides-character ?\┊)
+    (setq highlight-indent-guides-auto-character-face-perc 75))
+
+;; Enable vertico
+(use-package vertico
+  :init (vertico-mode)
+  :config
+  ; (setq vertico-scroll-margin 0)
+  ; (setq vertico-count 20)
+  (setq vertico-resize t)
+  (setq vertico-cycle t))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :init
+  (savehist-mode))
+
+(use-package marginalia
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
 
 (provide 'init-tools)

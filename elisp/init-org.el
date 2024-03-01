@@ -113,11 +113,4 @@
 				 :unnarrowed t)))
 	(org-roam-db-autosync-mode))
 
-(use-package org-noter
-	:bind ("C-c n n" . org-noter)
-	:custom
-	(org-noter-notes-search-path '("~/Documents/notes/"))
-	:config
-	(setq org-noter-always-create-frame nil))
-
 (provide 'init-org)
