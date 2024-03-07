@@ -1,29 +1,8 @@
 (use-package org
-	:hook
-	(org-mode . org-indent-mode)
+	:hook (org-mode . org-indent-mode)
 	:config
 	(require 'org-tempo)
 	(setq
-		org-auto-align-tags nil
-		org-tags-column 0
-		org-catch-invisible-edits 'show-and-error
-		org-special-ctrl-a/e t
-		org-insert-heading-respect-content t
-
-		;; Org styling, hide markup etc.
-		org-hide-emphasis-markers t
-		org-pretty-entities t
-		org-ellipsis "…"
-
-		;; Agenda styling
-		org-agenda-tags-column 0
-		org-agenda-block-separator ?─
-		org-agenda-time-grid
-		'((daily today require-timed)
-			 (800 1000 1200 1400 1600 1800 2000)
-			 " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
-		org-agenda-current-time-string
-		"◀── now ─────────────────────────────────────────────────"
 		org-startup-with-inline-images t
 		org-image-actual-width (/ (display-pixel-width) 3)
 		org-clock-into-drawer t
@@ -42,14 +21,14 @@
 		org-agenda-life-file (concat org-agenda-dir "/Life.org")
 										; org-capture
 		org-capture-templates
-		'(("h" "Habit" entry (file+headline org-agenda-habit-file "Habit") "* TODO %?\n")
+		'(
+             ("h" "Habit" entry (file+headline org-agenda-habit-file "Habit") "* TODO %?\n")
 			 ("a" "Appointment" entry (file+headline org-agenda-appointment-file "Appointment") "* TODO %?\n")
-			 ("p" "Project" entry (file+headline org-agenda-project-file "Project") "* %?\n")
-			 ("w" "Work" entry (file+function org-agenda-work-file (lambda ()
-																	   (org-datetree-find-date-create
-																		   (org-date-to-gregorian (org-today)) t)))
-				 "* TODO %?\n" :empty-lines 1)
-			 ("l" "Life" entry (file+headline org-agenda-life-file "Life") "* TODO %?\n" :prepend t)))
+			 ("p" "Project" entry (file+headline org-agenda-project-file "Project") "* TODO %?\n")
+			 ("w" "Work" entry (file+headline org-agenda-work-file "Work") "* TODO %?\n")
+			 ("l" "Life" entry (file+headline org-agenda-life-file "Life") "* TODO %?\n")
+             )
+        )
 
 	(setq org-publish-project-alist
 		'(("blog-notes"
@@ -84,8 +63,8 @@
 	:bind (("C-c a" . 'org-agenda)
 			  ("C-c c" . 'org-capture)))
 
-(use-package valign
-	:hook (org-mode . valign-mode))
+(use-package valign :hook (org-mode . valign-mode))
+(use-package org-bullets :hook (org-mode . (lambda () (org-bullets-mode 1))))
 
 (use-package org-roam
 	:bind (("C-c n f" . org-roam-node-find)

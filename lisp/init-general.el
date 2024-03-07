@@ -1,5 +1,49 @@
+(use-package emacs
+    :init
+    (winner-mode)
+    (save-place-mode)
+    (savehist-mode 1)
+    (auto-save-mode 1)
+    (whitespace-mode)
+    (global-hl-line-mode)
+    (global-so-long-mode)
+    (global-auto-revert-mode t)
+    (delete-selection-mode t)
+    (pixel-scroll-precision-mode 1)
+    (fset 'yes-or-no-p 'y-or-n-p)
+    (setq make-backup-files nil)
+    (setq auto-hscroll-mode 'currentline)
+    (setq inhibit-startup-message t)
+    (setq package-quickstart t)
+    (set-frame-font "JetBrainsMono 14" nil t)
+    (setq tab-always-indent 'complete)
+    :config
+    (global-set-key (kbd "<f7>") (lambda () (interactive) (setq compile-command "make -k build") (compile compile-command)))
+    (global-set-key (kbd "<f8>") (lambda () (interactive) (setq compile-command "make -k run") (compile compile-command)))
+    (global-set-key (kbd "<f9>") (lambda () (interactive) (setq compile-command "make clean") (compile compile-command))))
+
+
+(use-package isearch
+	:ensure nil
+	:bind (:map isearch-mode-map
+			  ([remap isearch-delete-char] . isearch-del-char))
+	:custom
+	(isearch-lazy-count t)
+	(lazy-count-prefix-format "%s/%s ")
+	(lazy-highlight-cleanup nil))
+
+(use-package tab-bar
+	:ensure nil
+	:init
+	(tab-bar-mode t)
+	(setq tab-bar-new-tab-choice "*scratch*") ;; buffer to show in new tabs
+	(setq tab-bar-close-button-show nil)      ;; hide tab close / X button
+	(setq tab-bar-show 1)                     ;; hide bar if <= 1 tabs open
+	(setq tab-bar-format '(tab-bar-format-tabs tab-bar-separator))
+	(setq tab-bar-tab-hints t))
+
 (use-package editorconfig
-  :config (editorconfig-mode 1))
+    :config (editorconfig-mode 1))
 
 (use-package multiple-cursors
     :config (setq mc/list-file (expand-file-name "multiple-cursors-list-file" wk-cfg-dir))
@@ -103,10 +147,7 @@
 	;; Enable automatic preview at point in the *Completions* buffer. This is
 	;; relevant when you use the default completion UI.
 	:hook (completion-list-mode . consult-preview-at-point-mode)
-
-	;; The :init configuration is always executed (Not lazy)
 	:init
-
 	;; Optionally configure the register formatting. This improves the register
 	;; preview for `consult-register', `consult-register-load',
 	;; `consult-register-store' and the Emacs built-ins.
@@ -121,8 +162,6 @@
 	(setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
 
-	;; Configure other variables and modes in the :config section,
-	;; after lazily loading the package.
 	:config
 
 	;; Optionally configure preview. The default value
@@ -165,19 +204,19 @@
 	)
 
 (use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+    :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package dashboard
 	:config (dashboard-setup-startup-hook))
 
 (use-package doom-themes
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
-  (load-theme 'doom-one t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
+    (load-theme 'doom-one t)
+    (doom-themes-visual-bell-config)
+    (doom-themes-org-config))
 
 (use-package doom-modeline
     :init (doom-modeline-mode 1))
@@ -192,32 +231,50 @@
 
 ;; Enable vertico
 (use-package vertico
-  :init (vertico-mode)
-  :config
-  ; (setq vertico-scroll-margin 0)
-  ; (setq vertico-count 20)
-  (setq vertico-resize t)
-  (setq vertico-cycle t))
+    :init (vertico-mode)
+    :config
+    (setq vertico-resize t)
+    (setq vertico-cycle t))
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
-  :init
-  (savehist-mode))
+    :init
+    (savehist-mode))
 
 (use-package marginalia
-  :bind (:map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
-  :init
-  (marginalia-mode))
+    :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+    :init
+    (marginalia-mode))
 
-;; Optionally use the `orderless' completion style.
 (use-package orderless
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
-(provide 'init-tools)
+(use-package corfu
+    :custom
+    (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+    (corfu-auto t)                 ;; Enable auto completion
+    (corfu-separator ?\s)          ;; Orderless field separator
+    ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+    ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+    (corfu-preview-current t)    ;; Disable current candidate preview
+    (corfu-preselect 'prompt)      ;; Preselect the prompt
+    ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+    ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+    :init
+    (global-corfu-mode))
+
+(use-package dabbrev
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  :config
+  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode))
+
+(provide 'init-general)

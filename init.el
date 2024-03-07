@@ -1,4 +1,4 @@
-(add-to-list 'load-path (expand-file-name "elisp" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 ;; straight
 (defvar bootstrap-version)
@@ -11,7 +11,7 @@
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-         "https://mirror.ghproxy.com/https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
@@ -38,6 +38,5 @@
     (auto-package-update-maybe))
 
 (require 'init-general)
-(require 'init-tools)
 (require 'init-org)
 (require 'init-matlab)
