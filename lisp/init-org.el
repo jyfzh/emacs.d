@@ -12,7 +12,7 @@
 
 		; org-agenda
 		org-refile-targets '((org-agenda-files :maxlevel . 2))
-		org-agenda-dir "~/org/agenda/"
+		org-agenda-dir "~/org/agenda"
 		org-agenda-files (list org-agenda-dir)
 		org-agenda-habit-file (concat org-agenda-dir "/Habit.org")
 		org-agenda-appointment-file (concat org-agenda-dir "/Appointment.org")
@@ -79,16 +79,16 @@
 	(setq org-roam-database-connector 'sqlite-builtin)
 	(setq org-roam-capture-templates
 		'(("d" "default" plain "%?"
-			  :if-new (file+head "default/${slug}.org" "#+title: ${title}\n\n* ${title}")
+			  :if-new (file+head "default/${slug}.org" "#+title: ${title}\n\n")
 			  :unnarrowed t)
 			 ("u" "utils" plain "%?"
-  				 :if-new (file+head "utils/${slug}.org" "#+title: ${title}\n#+filetags: utils\n* ${title}")
+  				 :if-new (file+head "utils/${slug}.org" "#+title: ${title}\n#+filetags: utils\n")
   				 :unnarrowed t)
 			 ("l" "programming language" plain "%?"
-				 :if-new (file+head "language/${slug}.org" "#+title: ${title}\n#+filetags: language\n* ${title}")
+				 :if-new (file+head "language/${slug}.org" "#+title: ${title}\n#+filetags: language\n")
 				 :unnarrowed t)
 			 ("t" "topic" plain "%?"
-				 :if-new (file+head "topic/${slug}.org" "#+title: ${title}\n#+filetags: topic\n* ${title}")
+				 :if-new (file+head "topic/${slug}.org" "#+title: ${title}\n#+filetags: topic\n")
 				 :unnarrowed t)))
 	(org-roam-db-autosync-mode))
 

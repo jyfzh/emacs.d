@@ -222,6 +222,7 @@
     :init (doom-modeline-mode 1))
 
 (use-package highlight-indent-guides
+    :disabled
     :init (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
     :defer t
     :config

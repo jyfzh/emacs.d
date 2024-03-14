@@ -39,4 +39,4 @@
 
 (require 'init-general)
 (require 'init-org)
-(require 'init-matlab)
+(require 'init-prog)

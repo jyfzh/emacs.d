@@ -6,4 +6,5 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (setq-default cursor-type 'bar)
-; (setq default-frame-alist (append default-frame-alist '((alpha-background . 85))))
+(setq default-frame-alist (append default-frame-alist '((alpha-background . 85))))
+(setq frame-inhibit-implied-resize t)
