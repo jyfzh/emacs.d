@@ -11,13 +11,20 @@
     (delete-selection-mode t)
     (pixel-scroll-precision-mode 1)
     (fset 'yes-or-no-p 'y-or-n-p)
+    (setq split-width-threshold 1)
     (setq make-backup-files nil)
     (setq auto-hscroll-mode 'currentline)
     (setq inhibit-startup-message t)
     (setq package-quickstart t)
-    (set-frame-font "JetBrainsMono 14" nil t)
+    (set-frame-font "Noto Sans Mono 16" nil t)
     (setq tab-always-indent 'complete)
+    (windmove-default-keybindings)
+
     :config
+    (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+    (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+    (global-set-key (kbd "S-C-<down>") 'shrink-window)
+    (global-set-key (kbd "S-C-<up>") 'enlarge-window)
     (global-set-key (kbd "<f7>") (lambda () (interactive) (setq compile-command "make -k build") (compile compile-command)))
     (global-set-key (kbd "<f8>") (lambda () (interactive) (setq compile-command "make -k run") (compile compile-command)))
     (global-set-key (kbd "<f9>") (lambda () (interactive) (setq compile-command "make clean") (compile compile-command))))
@@ -230,13 +237,6 @@
     (setq highlight-indent-guides-character ?\┊)
     (setq highlight-indent-guides-auto-character-face-perc 75))
 
-;; Enable vertico
-(use-package vertico
-    :init (vertico-mode)
-    :config
-    (setq vertico-resize t)
-    (setq vertico-cycle t))
-
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
     :init
@@ -247,35 +247,5 @@
               ("M-A" . marginalia-cycle))
     :init
     (marginalia-mode))
-
-(use-package orderless
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
-
-(use-package corfu
-    :custom
-    (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-    (corfu-auto t)                 ;; Enable auto completion
-    (corfu-separator ?\s)          ;; Orderless field separator
-    ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-    ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-    (corfu-preview-current t)    ;; Disable current candidate preview
-    (corfu-preselect 'prompt)      ;; Preselect the prompt
-    ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-    ;; (corfu-scroll-margin 5)        ;; Use scroll margin
-
-    :init
-    (global-corfu-mode))
-
-(use-package dabbrev
-  ;; Swap M-/ and C-M-/
-  :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand))
-  :config
-  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
-  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
-  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
-  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode))
 
 (provide 'init-general)

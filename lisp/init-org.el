@@ -2,6 +2,10 @@
 	:hook (org-mode . org-indent-mode)
 	:config
 	(require 'org-tempo)
+    (org-babel-do-load-languages
+       'org-babel-load-languages
+        '((python . t)))
+
 	(setq
 		org-startup-with-inline-images t
 		org-image-actual-width (/ (display-pixel-width) 3)
@@ -91,5 +95,18 @@
 				 :if-new (file+head "topic/${slug}.org" "#+title: ${title}\n#+filetags: topic\n")
 				 :unnarrowed t)))
 	(org-roam-db-autosync-mode))
+
+(defun org-archive-done-tasks ()
+  (interactive)
+  (org-map-entries
+   (lambda ()
+     (org-archive-subtree)
+     (setq org-map-continue-from (outline-previous-heading)))
+   "/DONE" 'file)
+  (org-map-entries
+   (lambda ()
+     (org-archive-subtree)
+     (setq org-map-continue-from (outline-previous-heading)))
+      "/CANCELED" 'file))
 
 (provide 'init-org)
