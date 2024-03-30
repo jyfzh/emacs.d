@@ -17,6 +17,8 @@
     (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
     (corfu-auto t)                 ;; Enable auto completion
     (corfu-separator ?\s)          ;; Orderless field separator
+    (corfu-auto-prefix 1)
+    (corfu-auto-delay 0.1)
     ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
     ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
     (corfu-preview-current t)    ;; Disable current candidate preview
@@ -64,24 +66,23 @@
              (typescript "https://mirror.ghproxy.com/https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
              (yaml "https://mirror.ghproxy.com/https://github.com/ikatyang/tree-sitter-yaml")
              (typst "https://mirror.ghproxy.com/https://github.com/uben0/tree-sitter-typst")))
-
-    (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
-    (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
-    (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
-    (add-to-list 'auto-mode-alist '("\\.tsp\\'" . typst-ts-mode))
-
     :config (setq treesit-font-lock-level 4))
 
 
-(use-package typst-ts-mode
-  :straight (:type git :host sourcehut :repo "meow_king/typst-ts-mode")
-  :custom
-  ;; don't add "--open" if you'd like `watch` to be an error detector
-  (typst-ts-mode-watch-options "--open")
+(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 
-  ;; experimental settings (I'm the main dev, so I enable these)
-  (typst-ts-mode-enable-raw-blocks-highlight t)
-  (typst-ts-mode-highlight-raw-blocks-at-startup t))
+(use-package typst-ts-mode
+    :straight (:type git :host sourcehut :repo "meow_king/typst-ts-mode")
+    :mode ("\\.tsp$" . typst-ts-mode)
+    :custom
+    ;; don't add "--open" if you'd like `watch` to be an error detector
+    (typst-ts-mode-watch-options "--open")
+
+    ;; experimental settings (I'm the main dev, so I enable these)
+    (typst-ts-mode-enable-raw-blocks-highlight t)
+    (typst-ts-mode-highlight-raw-blocks-at-startup t))
 
 (use-package matlab-mode
     :mode ("\\.m$" . matlab-mode))
