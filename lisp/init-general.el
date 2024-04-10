@@ -16,7 +16,7 @@
     (setq auto-hscroll-mode 'currentline)
     (setq inhibit-startup-message t)
     (setq package-quickstart t)
-    (set-frame-font "Noto Sans Mono 16" nil t)
+    (set-frame-font "Noto Sans Mono 12" nil t)
     (setq tab-always-indent 'complete)
     (windmove-default-keybindings)
 
