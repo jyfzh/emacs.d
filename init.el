@@ -7,22 +7,15 @@
 			                    ("melpa"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
     (setq use-package-verbose t)
     (unless (bound-and-true-p package--initialized)
-        ;; This line is just a raincheck
-                                        ; (defvar use-package-verbose t)
-        ;;Always ensure that the package is installed
         (defvar use-package-always-ensure t)
         (package-initialize)))
 
 (use-package auto-package-update
-    :ensure t
     :config
     (setq auto-package-update-delete-old-versions t)
     (setq auto-package-update-hide-results t)
     (auto-package-update-maybe))
 
-(require 'init-general)
-(require 'init-org)
-(require 'init-prog)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -36,3 +29,237 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+
+(use-package emacs
+    :init
+    (winner-mode)
+    (save-place-mode)
+    (savehist-mode 1)
+    (auto-save-mode 1)
+    (whitespace-mode)
+    (global-hl-line-mode)
+    (global-so-long-mode)
+    (global-auto-revert-mode t)
+    (delete-selection-mode t)
+    (pixel-scroll-precision-mode 1)
+    (fset 'yes-or-no-p 'y-or-n-p)
+    (setq split-width-threshold 1)
+    (setq make-backup-files nil)
+    (setq auto-hscroll-mode 'currentline)
+    (setq inhibit-startup-message t)
+    (setq package-quickstart t)
+    (set-frame-font "Noto Sans Mono 14" nil t)
+    (setq tab-always-indent 'complete)
+    (windmove-default-keybindings)
+
+    :config
+    (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+    (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+    (global-set-key (kbd "S-C-<down>") 'shrink-window)
+    (global-set-key (kbd "S-C-<up>") 'enlarge-window))
+
+
+(use-package isearch
+	:ensure nil
+	:bind (:map isearch-mode-map
+			  ([remap isearch-delete-char] . isearch-del-char))
+	:custom
+	(isearch-lazy-count t)
+	(lazy-count-prefix-format "%s/%s ")
+	(lazy-highlight-cleanup nil))
+
+(use-package editorconfig
+    :config (editorconfig-mode 1))
+
+(use-package multiple-cursors
+    :config (setq mc/list-file (expand-file-name "multiple-cursors-list-file" wk-cfg-dir))
+    :bind ("C-S-c C-S-c" . mc/edit-lines))
+
+(use-package avy
+    :custom
+    (avy-all-windows t)
+    (avy-timeout-seconds 0.3)
+    :bind (("C-l" . avy-goto-char-2)
+	          ("C-c C-j" . avy-resume))
+    :config
+    (use-package ace-pinyin :defer)
+    (ace-pinyin-global-mode +1))
+
+(use-package mwim
+    :bind
+    (("C-a" . mwim-beginning-of-code-or-line)
+        ("C-e" . mwim-end-of-code-or-line)))
+
+(use-package which-key
+	:hook (after-init . which-key-mode))
+
+(use-package wakatime-mode
+	:hook (after-init . global-wakatime-mode))
+
+(use-package magit
+	:commands magit)
+
+(use-package git-gutter
+	:hook (prog-mode . global-git-gutter-mode))
+
+(use-package amx
+	:config (amx-mode))
+
+(use-package marginalia
+    :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+    :init
+    (marginalia-mode))
+
+;; Enable vertico
+(use-package vertico
+    :init (vertico-mode)
+    :config
+    (setq vertico-resize t)
+    (setq vertico-cycle t))
+
+(use-package orderless
+    :custom
+    (completion-styles '(orderless basic))
+    (completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package corfu
+    :custom
+    (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+    (corfu-auto t)                 ;; Enable auto completion
+    (corfu-separator ?\s)          ;; Orderless field separator
+    (corfu-auto-prefix 1)
+    (corfu-auto-delay 0.1)
+    ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+    ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+    (corfu-preview-current t)    ;; Disable current candidate preview
+    (corfu-preselect 'prompt)      ;; Preselect the prompt
+    ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+    ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+    :init
+    (global-corfu-mode))
+
+(use-package dabbrev
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  :config
+  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode))
+
+
+;; org mode
+(use-package org
+	:hook (org-mode . org-indent-mode)
+	:config
+	(require 'org-tempo)
+    (org-babel-do-load-languages
+       'org-babel-load-languages
+        '((python . t)))
+
+	(setq
+		org-startup-with-inline-images t
+		org-image-actual-width (/ (display-pixel-width) 3)
+		org-clock-into-drawer t
+		org-log-done 'time
+		org-log-done 'note
+		org-todo-keywords '((sequence "TODO(t)" "STARTED" "WAITING(w@/!" "|" "DONE(d!)" "CANCELLED(c@)"))
+
+		; org-agenda
+		org-refile-targets '((org-agenda-files :maxlevel . 2))
+		org-agenda-dir "~/org/agenda"
+		org-agenda-files (list org-agenda-dir)
+		org-agenda-habit-file (concat org-agenda-dir "/Habit.org")
+		org-agenda-appointment-file (concat org-agenda-dir "/Appointment.org")
+		org-agenda-project-file (concat org-agenda-dir "/Project.org")
+		org-agenda-work-file (concat org-agenda-dir "/Work.org")
+		org-agenda-life-file (concat org-agenda-dir "/Life.org")
+										; org-capture
+		org-capture-templates
+		'(
+             ("h" "Habit" entry (file+headline org-agenda-habit-file "Habit") "* TODO %?\n")
+			 ("a" "Appointment" entry (file+headline org-agenda-appointment-file "Appointment") "* TODO %?\n")
+			 ("p" "Project" entry (file+headline org-agenda-project-file "Project") "* TODO %?\n")
+			 ("w" "Work" entry (file+headline org-agenda-work-file "Work") "* TODO %?\n")
+			 ("l" "Life" entry (file+headline org-agenda-life-file "Life") "* TODO %?\n")
+             )
+        )
+
+	(setq org-publish-project-alist
+		'(("blog-notes"
+			  :base-directory "~/org/note/"
+			  :base-extension "org"
+			  :publishing-directory "/usr/share/nginx/html"
+			  :recursive t
+			  :publishing-function org-html-publish-to-html
+			  :headline-levels 4
+			  :section-numbers nil
+			  :auto-preamble t
+			  :with-toc t
+			  :sitemap-file-entry-format "%d ====> %t"
+			  :sitemap-sort-files anti-chronologically
+			  :sitemap-filename "index.org"
+			  :sitemap-title "jyf home"
+			  :auto-sitemap t
+			  :html-doctype "html5"
+			  :html-validation-link nil
+			  :author "jyf"
+			  :email "jyfendipity@outlook.com"
+			  :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>"
+			  :language "zh-CN")
+
+			 ("static"
+				 :base-directory "~/org/note/"
+				 :base-extension "css\\|js\\|txt\\|jpg\\|gif\\|png"
+				 :recursive t
+				 :publishing-directory "/usr/share/nginx/html"
+				 :publishing-function org-publish-attachment)
+			 ))
+	:bind (("C-c a" . 'org-agenda)
+			  ("C-c c" . 'org-capture)))
+
+(use-package valign :hook (org-mode . valign-mode))
+(use-package org-bullets :hook (org-mode . (lambda () (org-bullets-mode 1))))
+
+(use-package org-roam
+	:bind (("C-c n f" . org-roam-node-find)
+			  ("C-c n i" . org-roam-node-insert)
+			  ("C-c n c" . org-roam-capture)
+			  ("C-c n d" . org-roam-dailies-capture-today)
+			  ("C-c n r" . org-roam-node-random))
+	:config
+	(setq org-roam-directory (file-truename "~/org/note/"))
+	(setq org-roam-dailies-directory "../journal/")
+	(setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:25}" 'face 'org-tag)))
+	(setq org-roam-database-connector 'sqlite-builtin)
+	(setq org-roam-capture-templates
+		'(("d" "default" plain "%?"
+			  :if-new (file+head "default/${slug}.org" "#+title: ${title}\n\n")
+			  :unnarrowed t)
+			 ("u" "utils" plain "%?"
+  				 :if-new (file+head "utils/${slug}.org" "#+title: ${title}\n#+filetags: utils\n")
+  				 :unnarrowed t)
+			 ("l" "programming language" plain "%?"
+				 :if-new (file+head "language/${slug}.org" "#+title: ${title}\n#+filetags: language\n")
+				 :unnarrowed t)
+			 ("t" "topic" plain "%?"
+				 :if-new (file+head "topic/${slug}.org" "#+title: ${title}\n#+filetags: topic\n")
+				 :unnarrowed t)))
+	(org-roam-db-autosync-mode))
+
+(defun org-archive-done-tasks ()
+  (interactive)
+  (org-map-entries
+   (lambda ()
+     (org-archive-subtree)
+     (setq org-map-continue-from (outline-previous-heading)))
+   "/DONE" 'file)
+  (org-map-entries
+   (lambda ()
+     (org-archive-subtree)
+     (setq org-map-continue-from (outline-previous-heading)))
+      "/CANCELED" 'file))
