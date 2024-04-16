@@ -22,7 +22,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-      '(matlab-mode org-roam org-bullets valign corfu orderless marginalia vertico doom-modeline doom-themes dashboard rainbow-delimiters consult git-gutter magit amx wakatime-mode which-key expand-region mwim avy multiple-cursors editorconfig auto-package-update)))
+      '(ace-pinyin ox-publish matlab-mode org-roam org-bullets valign corfu orderless marginalia vertico doom-modeline doom-themes dashboard rainbow-delimiters consult git-gutter magit amx wakatime-mode which-key expand-region mwim avy multiple-cursors editorconfig auto-package-update)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -38,7 +38,7 @@
     (savehist-mode 1)
     (auto-save-mode 1)
     (whitespace-mode)
-    (global-hl-line-mode)
+    ;; (global-hl-line-mode)
     (global-so-long-mode)
     (global-auto-revert-mode t)
     (delete-selection-mode t)
@@ -58,7 +58,6 @@
     (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
     (global-set-key (kbd "S-C-<down>") 'shrink-window)
     (global-set-key (kbd "S-C-<up>") 'enlarge-window))
-
 
 (use-package isearch
 	:ensure nil
@@ -94,9 +93,6 @@
 (use-package which-key
 	:hook (after-init . which-key-mode))
 
-(use-package wakatime-mode
-	:hook (after-init . global-wakatime-mode))
-
 (use-package magit
 	:commands magit)
 
@@ -112,7 +108,6 @@
     :init
     (marginalia-mode))
 
-;; Enable vertico
 (use-package vertico
     :init (vertico-mode)
     :config
@@ -161,15 +156,14 @@
        'org-babel-load-languages
         '((python . t)))
 
-	(setq
-		org-startup-with-inline-images t
+	(setq org-startup-with-inline-images t
 		org-image-actual-width (/ (display-pixel-width) 3)
 		org-clock-into-drawer t
 		org-log-done 'time
 		org-log-done 'note
 		org-todo-keywords '((sequence "TODO(t)" "STARTED" "WAITING(w@/!" "|" "DONE(d!)" "CANCELLED(c@)"))
 
-		; org-agenda
+        ;; org-agenda
 		org-refile-targets '((org-agenda-files :maxlevel . 2))
 		org-agenda-dir "~/org/agenda"
 		org-agenda-files (list org-agenda-dir)
@@ -178,7 +172,7 @@
 		org-agenda-project-file (concat org-agenda-dir "/Project.org")
 		org-agenda-work-file (concat org-agenda-dir "/Work.org")
 		org-agenda-life-file (concat org-agenda-dir "/Life.org")
-										; org-capture
+		;; org-capture
 		org-capture-templates
 		'(
              ("h" "Habit" entry (file+headline org-agenda-habit-file "Habit") "* TODO %?\n")
@@ -189,41 +183,48 @@
              )
         )
 
-	(setq org-publish-project-alist
-		'(("blog-notes"
-			  :base-directory "~/org/note/"
-			  :base-extension "org"
-			  :publishing-directory "/usr/share/nginx/html"
-			  :recursive t
-			  :publishing-function org-html-publish-to-html
-			  :headline-levels 4
-			  :section-numbers nil
-			  :auto-preamble t
-			  :with-toc t
-			  :sitemap-file-entry-format "%d ====> %t"
-			  :sitemap-sort-files anti-chronologically
-			  :sitemap-filename "index.org"
-			  :sitemap-title "jyf home"
-			  :auto-sitemap t
-			  :html-doctype "html5"
-			  :html-validation-link nil
-			  :author "jyf"
-			  :email "jyfendipity@outlook.com"
-			  :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>"
-			  :language "zh-CN")
-
-			 ("static"
-				 :base-directory "~/org/note/"
-				 :base-extension "css\\|js\\|txt\\|jpg\\|gif\\|png"
-				 :recursive t
-				 :publishing-directory "/usr/share/nginx/html"
-				 :publishing-function org-publish-attachment)
-			 ))
 	:bind (("C-c a" . 'org-agenda)
 			  ("C-c c" . 'org-capture)))
 
 (use-package valign :hook (org-mode . valign-mode))
 (use-package org-bullets :hook (org-mode . (lambda () (org-bullets-mode 1))))
+
+(use-package ox-publish
+    :ensure nil
+    :config
+    (setq org-publish-project-alist
+	    '(("notes"
+		      :base-directory "~/org/note/"
+		      :base-extension "org"
+		      :publishing-directory "/var/www/html/"
+		      :recursive t
+		      :publishing-function org-html-publish-to-html
+		      :headline-levels 4
+		      :section-numbers nil
+		      :auto-preamble t
+		      :with-toc t
+              :style-include-default nil
+              :auto-sitemap t
+		      :sitemap-file-entry-format "%d ====> %t"
+		      :sitemap-sort-files anti-chronologically
+		      :sitemap-filename "sitemap.org"
+		      :sitemap-title "jyf blog"
+		      :html-doctype "html5"
+		      :html-validation-link nil
+              :with-author t
+		      :author "蒋雨峰"
+		      :email "jyf.work@outlook.com"
+		      :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>"
+		      :language "zh-CN")
+
+		     ("static"
+			     :base-directory "~/org/note/"
+			     :base-extension "css\\|js\\|txt\\|jpg\\|gif\\|png"
+			     :recursive t
+			     :publishing-directory "/var/www/html/"
+			     :publishing-function org-publish-attachment)
+             ("site" :components ("notes" "static"))
+             )))
 
 (use-package org-roam
 	:bind (("C-c n f" . org-roam-node-find)
@@ -241,13 +242,13 @@
 			  :if-new (file+head "default/${slug}.org" "#+title: ${title}\n\n")
 			  :unnarrowed t)
 			 ("u" "utils" plain "%?"
-  				 :if-new (file+head "utils/${slug}.org" "#+title: ${title}\n#+filetags: utils\n")
+  				 :if-new (file+head "utils/${slug}.org" "#+title: ${title}\n#+filetags: utils\n#+AUTO_EXPORT: t\n")
   				 :unnarrowed t)
 			 ("l" "programming language" plain "%?"
-				 :if-new (file+head "language/${slug}.org" "#+title: ${title}\n#+filetags: language\n")
+				 :if-new (file+head "language/${slug}.org" "#+title: ${title}\n#+filetags: language\n#+AUTO_EXPORT: t\n")
 				 :unnarrowed t)
 			 ("t" "topic" plain "%?"
-				 :if-new (file+head "topic/${slug}.org" "#+title: ${title}\n#+filetags: topic\n")
+				 :if-new (file+head "topic/${slug}.org" "#+title: ${title}\n#+filetags: topic\n#+AUTO_EXPORT: t\n")
 				 :unnarrowed t)))
 	(org-roam-db-autosync-mode))
 
