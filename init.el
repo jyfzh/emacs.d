@@ -10,19 +10,13 @@
         (defvar use-package-always-ensure t)
         (package-initialize)))
 
-(use-package auto-package-update
-    :config
-    (setq auto-package-update-delete-old-versions t)
-    (setq auto-package-update-hide-results t)
-    (auto-package-update-maybe))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-      '(ace-pinyin ox-publish matlab-mode org-roam org-bullets valign corfu orderless marginalia vertico doom-modeline doom-themes dashboard rainbow-delimiters consult git-gutter magit amx wakatime-mode which-key expand-region mwim avy multiple-cursors editorconfig auto-package-update)))
+   '(which-key vertico valign org-roam org-bullets orderless mwim multiple-cursors marginalia magit git-gutter editorconfig corfu avy amx)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -36,9 +30,9 @@
     (winner-mode)
     (save-place-mode)
     (savehist-mode 1)
-    (auto-save-mode 1)
+    (auto-save-visited-mode 1)
     (whitespace-mode)
-    ;; (global-hl-line-mode)
+    (global-hl-line-mode)
     (global-so-long-mode)
     (global-auto-revert-mode t)
     (delete-selection-mode t)
@@ -49,7 +43,7 @@
     (setq auto-hscroll-mode 'currentline)
     (setq inhibit-startup-message t)
     (setq package-quickstart t)
-    (set-frame-font "Noto Sans Mono 14" nil t)
+    ;; (set-frame-font "Noto Sans Mono 14" nil t)
     (setq tab-always-indent 'complete)
     (windmove-default-keybindings)
 
