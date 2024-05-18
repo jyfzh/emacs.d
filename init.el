@@ -9,14 +9,13 @@
     (unless (bound-and-true-p package--initialized)
         (defvar use-package-always-ensure t)
         (package-initialize)))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(which-key vertico valign org-roam org-bullets orderless mwim multiple-cursors marginalia magit git-gutter editorconfig corfu avy amx)))
+      '(ox-pandoc which-key vertico valign org-roam org-bullets orderless mwim multiple-cursors marginalia magit git-gutter editorconfig corfu avy amx)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -32,12 +31,13 @@
     (savehist-mode 1)
     (auto-save-visited-mode 1)
     (whitespace-mode)
-    (global-hl-line-mode)
+    ;; (global-hl-line-mode)
     (global-so-long-mode)
     (global-auto-revert-mode t)
     (delete-selection-mode t)
     (pixel-scroll-precision-mode 1)
     (fset 'yes-or-no-p 'y-or-n-p)
+    (setq auto-save-mode nil)
     (setq split-width-threshold 1)
     (setq make-backup-files nil)
     (setq auto-hscroll-mode 'currentline)
@@ -46,6 +46,7 @@
     ;; (set-frame-font "Noto Sans Mono 14" nil t)
     (setq tab-always-indent 'complete)
     (windmove-default-keybindings)
+    (set-cursor-color "white")
 
     :config
     (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
@@ -64,6 +65,8 @@
 
 (use-package editorconfig
     :config (editorconfig-mode 1))
+
+(use-package ox-pandoc)
 
 (use-package multiple-cursors
     :config (setq mc/list-file (expand-file-name "multiple-cursors-list-file" wk-cfg-dir))
@@ -159,7 +162,7 @@
 
         ;; org-agenda
 		org-refile-targets '((org-agenda-files :maxlevel . 2))
-		org-agenda-dir "~/org/agenda"
+		org-agenda-dir "~/Onedrive/org/agenda"
 		org-agenda-files (list org-agenda-dir)
 		org-agenda-habit-file (concat org-agenda-dir "/Habit.org")
 		org-agenda-appointment-file (concat org-agenda-dir "/Appointment.org")
@@ -188,7 +191,7 @@
     :config
     (setq org-publish-project-alist
 	    '(("notes"
-		      :base-directory "~/org/note/"
+		      :base-directory "~/Onedrive/org/note/"
 		      :base-extension "org"
 		      :publishing-directory "/var/www/html/"
 		      :recursive t
@@ -212,7 +215,7 @@
 		      :language "zh-CN")
 
 		     ("static"
-			     :base-directory "~/org/note/"
+			     :base-directory "~/Onedrive/org/note/"
 			     :base-extension "css\\|js\\|txt\\|jpg\\|gif\\|png"
 			     :recursive t
 			     :publishing-directory "/var/www/html/"
@@ -227,7 +230,7 @@
 			  ("C-c n d" . org-roam-dailies-capture-today)
 			  ("C-c n r" . org-roam-node-random))
 	:config
-	(setq org-roam-directory (file-truename "~/org/note/"))
+	(setq org-roam-directory (file-truename "~/Onedrive/org/note/"))
 	(setq org-roam-dailies-directory "../journal/")
 	(setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:25}" 'face 'org-tag)))
 	(setq org-roam-database-connector 'sqlite-builtin)
