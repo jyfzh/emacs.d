@@ -162,7 +162,7 @@
 
         ;; org-agenda
 		org-refile-targets '((org-agenda-files :maxlevel . 2))
-		org-agenda-dir "~/Onedrive/org/agenda"
+		org-agenda-dir "~/OneDrive/org/agenda"
 		org-agenda-files (list org-agenda-dir)
 		org-agenda-habit-file (concat org-agenda-dir "/Habit.org")
 		org-agenda-appointment-file (concat org-agenda-dir "/Appointment.org")
@@ -191,7 +191,7 @@
     :config
     (setq org-publish-project-alist
 	    '(("notes"
-		      :base-directory "~/Onedrive/org/note/"
+		      :base-directory "~/OneDrive/org/note/"
 		      :base-extension "org"
 		      :publishing-directory "/var/www/html/"
 		      :recursive t
@@ -215,7 +215,7 @@
 		      :language "zh-CN")
 
 		     ("static"
-			     :base-directory "~/Onedrive/org/note/"
+			     :base-directory "~/OneDrive/org/note/"
 			     :base-extension "css\\|js\\|txt\\|jpg\\|gif\\|png"
 			     :recursive t
 			     :publishing-directory "/var/www/html/"
@@ -230,7 +230,7 @@
 			  ("C-c n d" . org-roam-dailies-capture-today)
 			  ("C-c n r" . org-roam-node-random))
 	:config
-	(setq org-roam-directory (file-truename "~/Onedrive/org/note/"))
+	(setq org-roam-directory (file-truename "~/OneDrive/org/note/"))
 	(setq org-roam-dailies-directory "../journal/")
 	(setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:25}" 'face 'org-tag)))
 	(setq org-roam-database-connector 'sqlite-builtin)
