@@ -230,7 +230,7 @@
 			  ("C-c n d" . org-roam-dailies-capture-today)
 			  ("C-c n r" . org-roam-node-random))
 	:config
-	(setq org-roam-directory (file-truename "~/OneDrive/org/note/"))
+	(setq org-roam-directory (file-truename "~/org/note/"))
 	(setq org-roam-dailies-directory "../journal/")
 	(setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:25}" 'face 'org-tag)))
 	(setq org-roam-database-connector 'sqlite-builtin)
